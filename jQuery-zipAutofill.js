@@ -74,8 +74,6 @@
 	}
 	
 	$.fn.zipAutofill = function(options) {
-		
-		var countries;
 	
 		var $cityField, $stateField, $countryField;
 		
@@ -192,29 +190,27 @@
 		// merge the defaults with the options
 		options = $.extend(
 			{
-				country: 'us',
+				countries: ['us'],
 				dataFolderPath: 'data/',
 				dataFilePrefix: 'zips-'
 			},
 			options
 		);
 		
-		countries = [options.country];
-		
 		// load the data
 		// go through each country requested
-		for (var i = 0, len = countries.length; i < len; i++) {
+		for (var i = 0, len = options.countries.length; i < len; i++) {
 			// check if that country is already loaded
-			if (data[countries[i]]) {
+			if (data[options.countries[i]]) {
 				// we already have the zip code data for this country
 			}
 			else {
 				// load the zip code data for this country
 				$.ajax({
-					url: options.dataFolderPath + options.dataFilePrefix + countries[i] + '.json',
+					url: options.dataFolderPath + options.dataFilePrefix + options.countries[i] + '.json',
 					dataType: 'json',
 					success: (function () {
-						var country = countries[i];
+						var country = options.countries[i];
 						return function (data) {
 							saveJSONData(country, data);
 						}
